@@ -22,7 +22,7 @@ _Target Program Not Running_
 ![](https://i.imgur.com/v6uLX2T.png)
 
 
-## [Download](https://github.com/coltonon/InjPack/releases)
+## [Download ←](https://github.com/coltonon/InjPack/releases)
 Extract the zip archive, then double click `InjPack.exe`.  
 1. Type the target program name, ex (`starwarsbattlefrontii.exe`)
 2. Select the path of the DLL you wish to pack
