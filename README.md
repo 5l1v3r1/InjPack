@@ -22,6 +22,17 @@ _Target Program Not Running_
 ![](https://i.imgur.com/v6uLX2T.png)
 
 
+## [Download](https://github.com/coltonon/InjPack/releases)
+Extract the zip archive, then double click `InjPack.exe`.  
+1. Type the target program name, ex (`starwarsbattlefrontii.exe`)
+2. Select the path of the DLL you wish to pack
+3. Type the DLL author name
+4. Type the cheat name
+5. Choose if you want manual map injection, or LoadLibrary.  Manual map is best most of the time, since the DLL doesn't have to be extracted.
+6. Choose verbose output if you want it.  This'll dump a ton of useless crap to the console that nobodies ever going to read.  If this ain't checked, the injector will exit immediately upon success, so you'll basically just see a console flash real quick.
+7.  Click merge.  If all goes well, after a minute you'll see a new explorer window pop open with your packed program selected.  If that doesn't happen, something screwed up.
+
+
 ## Why does this exist
 
 When most people distribute a DLL, they'll simply upload the binary, then tell people to go download an injector.  This assumes the user knows what a DLL is, what an injector is, and how to use both.  From my experience, tons of people don't know how to do that.  There are a million DLL injectors, all with different settings and usages.  They can be confusing, overwhelming, and often times the user just doesn't care enough to fart around in one.  Additionally, sometimes the author wants specific dll injection methods, such as manual mapping, to be used; this puts more effor on the user.
@@ -49,4 +60,22 @@ string[] paths = {
     @"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\"
 };
 ```
-If msbuild.exe isn't present in either of those directories, the tool will fail.
+If msbuild.exe isn't present in either of those directories, the tool will fail.  Also on VS 2017 every now and then the compiler would keel over and die if the resource was too big.  Not actually a problem with the code, but msbuild.  So far no problems with VS2019.
+
+Basically this entire tool is just a VS solution, here's what the tool itself does:
+
+1. Get user input for DLL, and game name
+2. Write's those settings in `settings.h` (output will look something like:)
+
+```c
+#define PROGRAMNAME "starwarsbattlefrontii.exe"
+#define DLLNAME "AnselHack.dll"
+#define AUTHOR "Coltonon"
+#define CHEATNAME "AnselHack"
+#define VERBOSE false
+#define MMAP true
+```
+
+3. Read the target DLL file, write it to `resource.cpp`
+4. Call `MSBuild.exe` on the template, tell it to build in Release mode.
+6. Copy the output file, open it in explorer
